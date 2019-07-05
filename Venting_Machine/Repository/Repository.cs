@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Venting_Machine;
 
 
+
 namespace Venting_Machine.Repository
 {
     class Repository<T>
@@ -17,16 +18,36 @@ namespace Venting_Machine.Repository
         }
 
         public static void RemoveFromVentingMachine()
-        {          
+        {
             if (VentingMachine.Instance.ProductQueue.Where(x => x.GetType() == typeof(T)).Any())
             {
+                //Backup The Data List type
+                Queue<Iproduct> BackupQueue = VentingMachine.Instance.ProductQueue;
+
+                //Filter ProductQueue In List type
+                var FilteredQueueListByType = VentingMachine.Instance.ProductQueue.Where(x => x.GetType() == typeof(T)).ToList();
+                var FilteredQueueList = VentingMachine.Instance.ProductQueue.Where(x => x.GetType() != typeof(T)).ToList();
+
+                //Reset The ProductQueue...So Rebuild!               
+                VentingMachine.Instance.ProductQueue.Clear();
+
+                //Combine Data From Backup And Filtered And Remove Selected Item
+                FilteredQueueListByType.ToList().ForEach(x=> VentingMachine.Instance.ProductQueue.Enqueue(x));
                 VentingMachine.Instance.ProductQueue.Dequeue();
+                FilteredQueueList.ToList().ForEach(x=> VentingMachine.Instance.ProductQueue.Enqueue(x));
             }
         }
 
-        public static void RemainingProduct()
+        public static void RemainingProducts()
         {
-            Console.WriteLine("  " + VentingMachine.Instance.ProductQueue.Where(x => x.GetType() == typeof(T)).Count() + " Remaining Products");
+            //Make a List Of Diferent Product Title
+            List<string> DistinctTitles = VentingMachine.Instance.ProductQueue.ToList().Select(x=>x.Title).Distinct().ToList();
+           
+            //Print every Product Count
+            foreach (var item in DistinctTitles)
+            {
+                Console.WriteLine("  " + VentingMachine.Instance.ProductQueue.Where(x => x.Title == item).Count() + " Remaining " + item  );
+            }
         }
     }
 }

@@ -7,13 +7,13 @@ using Venting_Machine.Repository;
 using Venting_Machine.Transactions;
 
 
+
 namespace Venting_Machine
 {
     class Program
     {
         static void Main(string[] args)
         {
-            VentingMachine VentMachine = VentingMachine.Instance;
             Customer Customer = new Customer("John", 13);
 
             int UserSelection;
@@ -26,18 +26,19 @@ namespace Venting_Machine
                     case 1:
                         //Input Cola 
                         Repository<Iproduct>.AddToVentingMachine(VentingMachine.Menu(UserSelection));
-                        Repository<Cola>.RemainingProduct();
+                        Repository<Iproduct>.RemainingProducts();
                         break;
                     case 2:
                         //Input Water
                         Repository<Iproduct>.AddToVentingMachine(VentingMachine.Menu(UserSelection));
-                        Repository<Water>.RemainingProduct();
+                        Repository<Iproduct>.RemainingProducts();
                         break;
                     case 3:
                         //Get a Cola                      
                         if (ProductTransaction<Cola>.GetProduct(Customer))
                         {
                             Repository<Cola>.RemoveFromVentingMachine();
+                            Repository<Iproduct>.RemainingProducts();
                         }
                         break;
                     case 4:
@@ -45,6 +46,7 @@ namespace Venting_Machine
                         if (ProductTransaction<Water>.GetProduct(Customer))
                         {
                             Repository<Water>.RemoveFromVentingMachine();
+                            Repository<Iproduct>.RemainingProducts();
                         }
                         break;
                     case 5:
@@ -53,11 +55,11 @@ namespace Venting_Machine
                         break;
                     case 6:
                         //Show Cola Count
-                        Repository<Cola>.RemainingProduct();
+                        Repository<Iproduct>.RemainingProducts();
                         break;
                     case 7:
                         //Show Water Count
-                        Repository<Water>.RemainingProduct();
+                        Repository<Iproduct>.RemainingProducts();
                         break;
                     default:
                         break;
@@ -137,18 +139,13 @@ namespace Venting_Machine
     //Singleton Patern
     sealed class VentingMachine
     {
-
         public static readonly VentingMachine Instance = new VentingMachine();
-
         public Queue<Iproduct> ProductQueue { get; set; } = new Queue<Iproduct>();
-        //public Queue<Iproduct> WaterQueue { get; set; } = new Queue<Iproduct>();
-
         //Private Default Constructor
         private VentingMachine() { }
 
         public static Iproduct Menu(int a)
         {
-
             if (a == 1)
             {
                 return new Cola("Zero", 1.25);
