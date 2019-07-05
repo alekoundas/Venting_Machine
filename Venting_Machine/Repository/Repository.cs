@@ -12,75 +12,21 @@ namespace Venting_Machine.Repository
     {
         public static T AddToVentingMachine(T Product)
         {
-            VentingMachine VentMachine = VentingMachine.Instance;
-
-
-            if (Product.GetType() == typeof(Cola))
-            {
-                VentMachine.ColaQueue.Enqueue((Iproduct)Product);
-                RemainingProduct(Product);
-                return Product;
-            }
-            else if (Product.GetType() == typeof(Water))
-            {
-                VentMachine.WaterQueue.Enqueue((Iproduct)Product);
-                RemainingProduct(Product);
-
-                return Product;
-            }
+            VentingMachine.Instance.ProductQueue.Enqueue((Iproduct)Product);
             return Product;
         }
 
-        public static void RemoveFromVentingMachine(T Product)
-        {
-            VentingMachine VentMachine = VentingMachine.Instance;
-
-
-            if (Product.GetType() == typeof(Cola))
+        public static void RemoveFromVentingMachine()
+        {          
+            if (VentingMachine.Instance.ProductQueue.Where(x => x.GetType() == typeof(T)).Any())
             {
-                VentMachine.ColaQueue.Dequeue();
-            }
-            else if (Product.GetType() == typeof(Water))
-            {
-                VentMachine.WaterQueue.Dequeue();
+                VentingMachine.Instance.ProductQueue.Dequeue();
             }
         }
 
-        public static void RemainingProduct(T Product)
+        public static void RemainingProduct()
         {
-            
-            VentingMachine VentMachine = VentingMachine.Instance;           
-            if (Product.GetType() == typeof(Cola))
-            {
-                if (VentMachine.ColaQueue.Count != 0)
-                {
-                    Console.WriteLine("  " + VentMachine.ColaQueue.Count + " Remaining Colas");
-                }
-                else
-                {
-                    Console.WriteLine("  " + 0 + " Remaining Colas");
-                }
-                
-            }
-            else if(Product.GetType() == typeof(Water))
-            {
-                Console.WriteLine(VentMachine.ColaQueue.Count);
-                if (VentMachine.ColaQueue.Count != 0)
-                {
-                    Console.WriteLine("  " + VentMachine.WaterQueue.Count + " Remaining Water");
-                }
-                else
-                {
-                    Console.WriteLine("  " + 0 + " Remaining Water");
-                }
-               
-            }
-
-
+            Console.WriteLine("  " + VentingMachine.Instance.ProductQueue.Where(x => x.GetType() == typeof(T)).Count() + " Remaining Products");
         }
-
-
-
-
     }
 }

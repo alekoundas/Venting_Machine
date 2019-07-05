@@ -9,12 +9,6 @@ using Venting_Machine.Transactions;
 
 namespace Venting_Machine
 {
-    //εναν μηχανισμο οπου υπαρχει πελ με ονομα κ λεφτα
-    //ψυγειο με 2-3 προιντα τυπο id τιμη
-    //θεωρουμε οτι το ψυγειο χωραει απειρες ποσοτητες
-    //δυνατοτητες
-    //επιλογη προιον , αφαιρεση του προιον απο το ψυγειο μεχρι να τελειωσει το ποσο η τα προιοντα η μεχρι να πατησει exit
-    //ενα μνμ π να λεει τι αγορασε τι τιμη ειχε και ποσα λεφτα εχει ακομα
     class Program
     {
         static void Main(string[] args)
@@ -25,32 +19,33 @@ namespace Venting_Machine
             int UserSelection;
             do
             {
-
                 PrintMenu();
                 UserSelection = Convert.ToInt32(Console.ReadLine());
                 switch (UserSelection)
                 {
                     case 1:
-                        //Input Cola
-                        Iproduct cola = Repository<Iproduct>.AddToVentingMachine(VentingMachine.Menu(UserSelection));
+                        //Input Cola 
+                        Repository<Iproduct>.AddToVentingMachine(VentingMachine.Menu(UserSelection));
+                        Repository<Cola>.RemainingProduct();
                         break;
                     case 2:
                         //Input Water
-                        Iproduct water = Repository<Iproduct>.AddToVentingMachine(VentingMachine.Menu(UserSelection));
+                        Repository<Iproduct>.AddToVentingMachine(VentingMachine.Menu(UserSelection));
+                        Repository<Water>.RemainingProduct();
                         break;
                     case 3:
                         //Get a Cola                      
-                        if (ProductTransaction<Cola>.GetCola(VentMachine.ColaQueue, Customer))
+                        if (ProductTransaction<Cola>.GetProduct(Customer))
                         {
-                            Repository<Cola>.RemoveFromVentingMachine((Cola)VentMachine.ColaQueue.Peek());
+                            Repository<Cola>.RemoveFromVentingMachine();
                         }
                         break;
                     case 4:
                         //Get Water
-                        if (ProductTransaction<Water>.GetWater(VentMachine.WaterQueue , Customer))
+                        if (ProductTransaction<Water>.GetProduct(Customer))
                         {
-                            Repository<Water>.RemoveFromVentingMachine((Water)VentMachine.WaterQueue.Peek());
-                        }                      
+                            Repository<Water>.RemoveFromVentingMachine();
+                        }
                         break;
                     case 5:
                         //CustomerBalance
@@ -58,34 +53,17 @@ namespace Venting_Machine
                         break;
                     case 6:
                         //Show Cola Count
-                        Repository<Cola>.RemainingProduct((Cola)VentMachine.ColaQueue.Peek());
+                        Repository<Cola>.RemainingProduct();
                         break;
                     case 7:
                         //Show Water Count
-                        Repository<Water>.RemainingProduct((Water)VentMachine.WaterQueue.Peek());
+                        Repository<Water>.RemainingProduct();
                         break;
                     default:
                         break;
                 }
 
             } while (UserSelection != 8);
-
-
-
-            foreach (Cola item in VentMachine.ColaQueue)
-            {
-                Console.WriteLine(item.Title);
-            }
-
-            foreach (Water item in VentMachine.WaterQueue)
-            {
-                Console.WriteLine(item.Title);
-            }
-
-
-
-
-
         }
 
         public static void PrintMenu()
@@ -113,9 +91,6 @@ namespace Venting_Machine
     {
         double Price { get; set; }
         string Title { get; set; }
-        
-       
-
     }
 
     class Customer
@@ -144,7 +119,6 @@ namespace Venting_Machine
             Price = price;
             ID = Guid.NewGuid().ToString();
         }
-
     }
     class Water : Iproduct
     {
@@ -157,7 +131,6 @@ namespace Venting_Machine
             Price = price;
             ID = Guid.NewGuid().ToString();
         }
-
     }
 
 
@@ -167,8 +140,8 @@ namespace Venting_Machine
 
         public static readonly VentingMachine Instance = new VentingMachine();
 
-        public Queue<Iproduct> ColaQueue { get; set; } =  new Queue<Iproduct>();
-        public Queue<Iproduct> WaterQueue { get; set; } = new Queue<Iproduct>();
+        public Queue<Iproduct> ProductQueue { get; set; } = new Queue<Iproduct>();
+        //public Queue<Iproduct> WaterQueue { get; set; } = new Queue<Iproduct>();
 
         //Private Default Constructor
         private VentingMachine() { }
@@ -188,8 +161,6 @@ namespace Venting_Machine
             {
                 return null;
             }
-
         }
-
     }
 }

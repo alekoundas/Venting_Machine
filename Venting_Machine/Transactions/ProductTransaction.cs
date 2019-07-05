@@ -9,17 +9,17 @@ namespace Venting_Machine.Transactions
 {
     class ProductTransaction<T>
     {
-        public static bool GetCola(Queue<Iproduct> Product, Customer customer)
+        public static bool GetProduct(Customer customer)
         {
             VentingMachine VentMachine = VentingMachine.Instance;
 
-            if (VentMachine.ColaQueue.Count > 0)
+            if (VentMachine.ProductQueue.Where(x => x.GetType() == typeof(T)).Count() > 0)
             {
-                if (VentMachine.ColaQueue.Peek().Price <= customer.Money)
+                if (VentMachine.ProductQueue.Where(x => x.GetType() == typeof(T)).Any(x => x.Price <= customer.Money))
                 {
                     double MoneyBefore = customer.Money;
-                    customer.Money = MoneyTransaction<Iproduct>.TransferMoney(VentMachine.ColaQueue, customer.Money);
-                    Console.WriteLine($"Purchased {VentMachine.ColaQueue.Peek().Title} :{VentMachine.ColaQueue.Peek().Price} Balance Before: {MoneyBefore} and After: {customer.Money}");
+                    customer.Money = MoneyTransaction<Iproduct>.TransferMoney(VentMachine.ProductQueue, customer.Money);
+                    Console.WriteLine($"Purchased {VentMachine.ProductQueue.Peek().Title} :{VentMachine.ProductQueue.Peek().Price} Balance Before: {MoneyBefore} and After: {customer.Money}");
                 }
                 else
                 {
@@ -28,37 +28,7 @@ namespace Venting_Machine.Transactions
             }
             else
             {
-                Console.WriteLine("Im Out Of Coca Colas");
-                return false;
-            }
-            return true;
-
-
-
-
-
-        }
-
-        public static bool GetWater(Queue<Iproduct> Product , Customer customer)
-        {
-            VentingMachine VentMachine = VentingMachine.Instance;
-
-            if (VentMachine.WaterQueue.Count > 0)
-            {
-                if (VentMachine.WaterQueue.Peek().Price <= customer.Money)
-                {
-                    double MoneyBefore = customer.Money;
-                    customer.Money = MoneyTransaction<Iproduct>.TransferMoney(VentMachine.WaterQueue, customer.Money);
-                    Console.WriteLine($"Purchased {VentMachine.WaterQueue.Peek().Title} :{VentMachine.WaterQueue.Peek().Price} Balance Before: {MoneyBefore} and After: {customer.Money}");
-                }
-                else
-                {
-                    Console.WriteLine("Not Enougth Balance!");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Im Out Of Water Botles");
+                Console.WriteLine("Im Out Of Selected Product");
                 return false;
             }
             return true;
