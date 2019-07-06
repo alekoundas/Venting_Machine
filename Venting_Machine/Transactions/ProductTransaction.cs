@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Venting_Machine;
 
 namespace Venting_Machine.Transactions
 {
@@ -24,6 +23,7 @@ namespace Venting_Machine.Transactions
                 else
                 {
                     Console.WriteLine("Not Enougth Balance!");
+                    return false;
                 }
             }
             else

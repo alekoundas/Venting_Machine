@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Venting_Machine.Repository;
 using Venting_Machine.Transactions;
+using System.Data;
+using System.Data.SqlClient;
 
 
 
@@ -14,7 +16,9 @@ namespace Venting_Machine
     {
         static void Main(string[] args)
         {
-            Customer Customer = new Customer("John", 13);
+            SqlConnection Con = DataBase.dbConnectionAndInitData();
+
+
 
             int UserSelection;
             do
@@ -24,7 +28,7 @@ namespace Venting_Machine
                 switch (UserSelection)
                 {
                     case 1:
-                        //Input Cola 
+                        //Input Cigar 
                         Repository<Iproduct>.AddToVentingMachine(VentingMachine.Menu(UserSelection));
                         Repository<Iproduct>.RemainingProducts();
                         break;
@@ -34,16 +38,16 @@ namespace Venting_Machine
                         Repository<Iproduct>.RemainingProducts();
                         break;
                     case 3:
-                        //Get a Cola                      
-                        if (ProductTransaction<Cola>.GetProduct(Customer))
+                        //Get a Cigar                      
+                        if (ProductTransaction<Cigar>.GetProduct(Customer.Instance))
                         {
-                            Repository<Cola>.RemoveFromVentingMachine();
+                            Repository<Cigar>.RemoveFromVentingMachine();
                             Repository<Iproduct>.RemainingProducts();
                         }
                         break;
                     case 4:
                         //Get Water
-                        if (ProductTransaction<Water>.GetProduct(Customer))
+                        if (ProductTransaction<Water>.GetProduct(Customer.Instance))
                         {
                             Repository<Water>.RemoveFromVentingMachine();
                             Repository<Iproduct>.RemainingProducts();
@@ -51,34 +55,29 @@ namespace Venting_Machine
                         break;
                     case 5:
                         //CustomerBalance
-                        Console.WriteLine(Customer.Money);
+                        Console.WriteLine(Customer.Instance.Money);
                         break;
                     case 6:
-                        //Show Cola Count
+                        //Show Products Count
                         Repository<Iproduct>.RemainingProducts();
-                        break;
-                    case 7:
-                        //Show Water Count
-                        Repository<Iproduct>.RemainingProducts();
-                        break;
+                        break;                   
                     default:
                         break;
                 }
 
-            } while (UserSelection != 8);
+            } while (UserSelection != 7);
         }
 
         public static void PrintMenu()
         {
             Console.WriteLine("                 ///////////////////////////////");
-            Console.WriteLine("                 //  1.Add Coca Cola.         //");
+            Console.WriteLine("                 //  1.Add Cigar.             //");
             Console.WriteLine("                 //  2.Add Water.             //");
-            Console.WriteLine("                 //  3.Get Coca Cola.         //");
+            Console.WriteLine("                 //  3.Get Cigar.             //");
             Console.WriteLine("                 //  4.Get Water.             //");
             Console.WriteLine("                 //  5.Show Balance.          //");
-            Console.WriteLine("                 //  6.Show Remaining Colas.  //");
-            Console.WriteLine("                 //  7.Show Remaining Water.  //");
-            Console.WriteLine("                 //  8.Exit.                  //");
+            Console.WriteLine("                 //  6.Show Remaining Product.//");
+            Console.WriteLine("                 //  7.Exit.                  //");
             Console.WriteLine("                 ///////////////////////////////");
             Console.WriteLine("              Select an answer by the displayed number \n\n");
         }
@@ -100,22 +99,17 @@ namespace Venting_Machine
         public string ID { get; set; }
         public string Name { get; set; }
         public double Money { get; set; }
-
-        public Customer(string name, int money)
-        {
-            Name = name;
-            Money = money;
-            ID = Guid.NewGuid().ToString();
-        }
+        public static readonly Customer Instance = new Customer();
+        private Customer() { }
     }
 
-    class Cola : Iproduct
+    class Cigar : Iproduct
     {
         public string ID { get; set; }
         public string Title { get; set; }
         public double Price { get; set; }
 
-        public Cola(string title, double price)
+        public Cigar(string title, double price)
         {
             Title = title;
             Price = price;
@@ -148,7 +142,7 @@ namespace Venting_Machine
         {
             if (a == 1)
             {
-                return new Cola("Zero", 1.25);
+                return new Cigar("Old Holborn - White", 1.25);
             }
             else if (a == 2)
             {
