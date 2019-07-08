@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace BackEnd.Transactions
+namespace FrontEnd.Transactions
 {
     class MoneyTransaction<T>
     {

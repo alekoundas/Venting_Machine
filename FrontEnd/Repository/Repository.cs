@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 
 
-namespace BackEnd.Repository
+namespace FrontEnd.Repository
 {
     class Repository<T>
     {

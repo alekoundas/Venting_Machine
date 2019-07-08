@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace BackEnd.SqlTools
+namespace FrontEnd.SqlTools
 {
     public class DataBase
     {
-        public static SqlConnection dbConnectionAndInitData()
+        public static void dbGetStartUpData()
         {
             //Make And Open Connection to SQL Server
             string DB_Conn = @"Server = localhost\SQLEXPRESS; Database = master; MultipleActiveResultSets=true;Trusted_Connection = True";
@@ -22,9 +22,7 @@ namespace BackEnd.SqlTools
             GetUserFromDB(dbCon);
 
             //Get Product Data From db
-            GetStoreProductsFromDB(dbCon);
-                    
-            return dbCon;
+            GetStoreProductsFromDB(dbCon);                              
         }
 
         private static void GetUserFromDB(SqlConnection dbCon)

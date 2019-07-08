@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FrontEnd;
 
-namespace BackEnd.Transactions
+namespace FrontEnd.Transactions
 {
     class ProductTransaction<T>
     {
