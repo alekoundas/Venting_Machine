@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 
 
@@ -17,26 +18,24 @@ namespace FrontEnd.Repository
             return Product;
         }
 
-        public static void RemoveFromVentingMachine()
+        public static void RemoveFromVentingMachine(Queue<Iproduct> ProdQueue, Iproduct ItemToRemove)
         {
-            if (VentingMachine.Instance.ProductQueue.Where(x => x.GetType() == typeof(T)).Any())
-            {
-                //Backup The Data List type
-                Queue<Iproduct> BackupQueue = VentingMachine.Instance.ProductQueue;
+            //Backup The Data List type
+            Queue<Iproduct> BackupQueue = ProdQueue;
 
-                //Filter ProductQueue In List type
-                var FilteredQueueListByType = VentingMachine.Instance.ProductQueue.Where(x => x.GetType() == typeof(T)).ToList();
-                var FilteredQueueList = VentingMachine.Instance.ProductQueue.Where(x => x.GetType() != typeof(T)).ToList();
+            //Filter ProductQueue In List By Title
+            var FilteredQueueListByType = ProdQueue.Where(x => x.Title == ItemToRemove.Title).ToList();
+            var FilteredQueueList = ProdQueue.Where(x => x.Title != ItemToRemove.Title).ToList();
 
-                //Reset The ProductQueue...So Rebuild!               
-                VentingMachine.Instance.ProductQueue.Clear();
+            //Reset The ProductQueue...So Rebuild!               
+            ProdQueue.Clear();
 
-                //Combine Data From Backup And Filtered And Remove Selected Item
-                FilteredQueueListByType.ToList().ForEach(x=> VentingMachine.Instance.ProductQueue.Enqueue(x));
-                VentingMachine.Instance.ProductQueue.Dequeue();
-                FilteredQueueList.ToList().ForEach(x=> VentingMachine.Instance.ProductQueue.Enqueue(x));
-            }
+            //Combine Data From Backup And Filtered And Remove Selected Item
+            FilteredQueueListByType.ToList().ForEach(x => ProdQueue.Enqueue(x));
+            ProdQueue.Dequeue();
+            FilteredQueueList.ToList().ForEach(x => ProdQueue.Enqueue(x));
         }
+
 
         public static void RemainingProducts()
         {

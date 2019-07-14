@@ -36,19 +36,21 @@
             this.BalanceLabel = new System.Windows.Forms.Label();
             this.TotalLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // AvailableProductsListBox
             // 
-            resources.ApplyResources(this.AvailableProductsListBox, "AvailableProductsListBox");
             this.AvailableProductsListBox.BackColor = System.Drawing.Color.Silver;
+            resources.ApplyResources(this.AvailableProductsListBox, "AvailableProductsListBox");
             this.AvailableProductsListBox.FormattingEnabled = true;
             this.AvailableProductsListBox.Name = "AvailableProductsListBox";
             // 
             // CartListBox
             // 
-            resources.ApplyResources(this.CartListBox, "CartListBox");
             this.CartListBox.BackColor = System.Drawing.Color.Silver;
+            resources.ApplyResources(this.CartListBox, "CartListBox");
             this.CartListBox.FormattingEnabled = true;
             this.CartListBox.Name = "CartListBox";
             // 
@@ -81,11 +83,27 @@
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
+            // button1
+            // 
+            resources.ApplyResources(this.button1, "button1");
+            this.button1.Name = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.RemoveFromCartClick);
+            // 
+            // button3
+            // 
+            resources.ApplyResources(this.button3, "button3");
+            this.button3.Name = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.ClearCartClick);
+            // 
             // VentingMachineForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.TotalLabel);
             this.Controls.Add(this.BalanceLabel);
@@ -108,6 +126,8 @@
         private System.Windows.Forms.Label BalanceLabel;
         private System.Windows.Forms.Label TotalLabel;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button3;
     }
 }
 

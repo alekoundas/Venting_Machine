@@ -117,7 +117,48 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="buttdfg.Location" type="System.Drawing.Point, System.Drawing">
+    <value>273, 153</value>
+  </data>
   <data name="buttdfg.Text" xml:space="preserve">
     <value>Add To Cart</value>
+  </data>
+  <data name="button2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>478, 352</value>
+  </data>
+  <data name="BalanceLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>247, 326</value>
+  </data>
+  <data name="TotalLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>309, 260</value>
+  </data>
+  <data name="button1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Comic Sans MS, 14.25pt</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="button1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="button1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 37</value>
+  </data>
+  <data name="button1.Text" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="button3.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Comic Sans MS, 10.25pt</value>
+  </data>
+  <data name="button3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="button3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 37</value>
+  </data>
+  <data name="button3.Text" xml:space="preserve">
+    <value>Remove All</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>705, 398</value>
   </data>
 </root>

@@ -19,11 +19,13 @@ namespace FrontEnd
     }
 
     //Singleton Patern
-    sealed class VentingMachine : Iqueue
+    sealed class VentingMachine : Iqueue 
     {
         public static readonly VentingMachine Instance = new VentingMachine();
         public Queue<Iproduct> ProductQueue { get; set; } = new Queue<Iproduct>();
         public Queue<Iproduct> CartQueue { get; set; } = new Queue<Iproduct>();
+
+
         //Private Default Constructor
         private VentingMachine() { }
 

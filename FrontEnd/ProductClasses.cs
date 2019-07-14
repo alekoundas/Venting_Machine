@@ -26,8 +26,7 @@ namespace FrontEnd
         public Cigar(string title, double price)
         {
             Title = title;
-            Price = price;
-            ID = Guid.NewGuid().ToString();
+            Price = price;           
         }
     }
     class Water : Iproduct
@@ -42,7 +41,6 @@ namespace FrontEnd
         {
             Title = title;
             Price = price;
-            ID = Guid.NewGuid().ToString();
         }       
     }
 }

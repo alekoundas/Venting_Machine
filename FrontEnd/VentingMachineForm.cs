@@ -22,18 +22,16 @@ namespace FrontEnd
         public VentingMachineForm()
         {
             InitializeComponent();
-            DataBase.dbGetStartUpData();//Connect to db and fill product queue
-            SetBalanceLabelByChange();
-            RefreshAvailableProductsListBoxByChange(VentingMachine.Instance.ProductQueue.ToList());
-
+            DataBase.dbGetStartUpData();//Connect to db and fill product queue and Customer
+            SetBalanceLabelByChange();//Refrece balance 
+            RefreshAvailableProductsListBoxByChange();
         }
 
 
         private void AddToCartOnClick(object sender, EventArgs e)
         {
             VentingMachine.Instance.CartQueue.Enqueue((Iproduct)AvailableProductsListBox.SelectedItem);
-            SetTotalLabelByChange();
-            //Distinct cart Items by Title (so the items inside are unique to display)
+            SetTotalLabelByChange();           
             RefreshCartListBoxByChange();
         }
 
@@ -60,14 +58,15 @@ namespace FrontEnd
 
         private void RefreshCartListBoxByChange()
         {
+            //Distinct cart Items by Title (so the items inside are unique to display)
             CartItemsBinding.DataSource = VentingMachine.Instance.CartQueue.GroupBy(x => x.Title).ToList().Select(x => x.FirstOrDefault()).ToList();
             CartListBox.DataSource = CartItemsBinding;
             CartListBox.DisplayMember = "OutputCart";
             CartListBox.ValueMember = "OutputCart";
         }
-        private void RefreshAvailableProductsListBoxByChange(object x)
+        private void RefreshAvailableProductsListBoxByChange()
         {
-            StoreItemsBinding.DataSource = x;
+            StoreItemsBinding.DataSource = VentingMachine.Instance.ProductQueue.GroupBy(x=>x.Title).Select(x=>x.FirstOrDefault()).ToList();
             AvailableProductsListBox.DataSource = StoreItemsBinding;
             AvailableProductsListBox.DisplayMember = "OutputAvailable";
             AvailableProductsListBox.ValueMember = "OutputAvailable";
@@ -80,5 +79,24 @@ namespace FrontEnd
         {
             TotalLabel.Text = "Total Cost: " + VentingMachine.Instance.CartQueue.Sum(x => x.Price);
         }
+
+        private void RemoveFromCartClick(object sender, EventArgs e)
+        {
+
+            if (VentingMachine.Instance.CartQueue.Count>0)
+            {
+                Repository<Iproduct>.RemoveFromVentingMachine(VentingMachine.Instance.CartQueue, (Iproduct)CartListBox.SelectedItem);
+                RefreshCartListBoxByChange();
+                SetTotalLabelByChange();
+            }          
+        }
+
+        private void ClearCartClick(object sender, EventArgs e)
+        {
+            VentingMachine.Instance.CartQueue.Clear();
+            RefreshCartListBoxByChange();
+            SetTotalLabelByChange();
+        }
+
     }
 }

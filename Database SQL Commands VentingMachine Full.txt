@@ -1,0 +1,71 @@
+CREATE DATABASE VentingMachine;
+USE VentingMachine;
+
+-->Tables Products
+CREATE TABLE Water 
+( 
+	Id INTEGER NOT NULL IDENTITY,  
+	Title CHAR(30) NOT NULL, 
+	Price FLOAT NOT NULL,
+	CONSTRAINT waterk PRIMARY KEY(id) 
+);
+
+CREATE TABLE Cigar 
+( 
+	Id INTEGER NOT NULL IDENTITY,  
+	Title CHAR(30) NOT NULL, 
+	Price FLOAT NOT NULL,
+	CONSTRAINT cigark PRIMARY KEY(id)  
+); 
+
+ -->Table Customer
+CREATE TABLE Customer 
+( 
+	Id INTEGER NOT NULL IDENTITY,  
+	Name CHAR(30) NOT NULL, 
+	Money FLOAT NOT NULL,
+	CONSTRAINT customerk PRIMARY KEY(id) 
+);
+
+ -->Table StoreProducts
+ CREATE TABLE StoreProducts 
+(
+	Id INTEGER NOT NULL IDENTITY ,
+	Waterid INTEGER,
+	Cigarid INTEGER,
+	CONSTRAINT sk PRIMARY KEY(Id),
+	CONSTRAINT fk_waterid FOREIGN KEY(Waterid) REFERENCES Water(id),
+	CONSTRAINT fk_cigarid FOREIGN KEY(Cigarid) REFERENCES Cigar(id)
+);
+
+
+
+Insert
+	-->Customer
+			insert into Customer (name,money) values('Hector',50);
+	-->Water
+			insert into Water (Title,Price) values('Perier',0.9);
+			insert into Water (Title,Price) values('Ayra',0.5);
+	-->Cigar
+			insert into Cigar (Title,Price) values('Malboro - Touch',4.30);
+			insert into Cigar (Title,Price) values('Old Holborn - White',7.20);
+	-->StoreProducts
+			insert into Storeproducts (Cigarid) values(1);
+			insert into Storeproducts (Cigarid) values(2);
+			insert into Storeproducts (Cigarid) values(3);
+			insert into Storeproducts (Waterid) values(1);
+			insert into Storeproducts (Waterid) values(2);
+			insert into Storeproducts (Waterid) values(3);
+
+
+
+
+Select
+	-->Customer
+			SELECT name,money FROM Customer;
+	-->Water
+			SELECT Title,Price FROM StoreProduct  INNER JOIN Water ON StoreProduct.waterid = " + (int)Row.GetValue(0) + " AND Water.id=" + Row.GetValue(0) + " ;
+	-->Cigar
+			SELECT Title,Price FROM StoreProduct  INNER JOIN Cigar ON StoreProduct.cigarid = " + (int)Row.GetValue(1) + " AND Cigar.id=" + Row.GetValue(1) + " ;
+	-->StoreProducts
+			SELECT waterid,cigarid FROM StoreProduct;
